@@ -1,0 +1,73 @@
+    /*header*/
+	
+	.dropdown-row{
+		    margin-top:40px;
+		    padding: 0 10px;
+	}
+	/* login page*/
+	.fogot-pw{
+	
+		float:right; 
+		font-size: 80%; 
+		position: relative; 
+	}
+
+	.sign-account{
+	
+		border-top: 1px solid#888; 
+		padding-top:15px; 
+		font-size:85%;
+	}
+	/*thank you page*/
+	.thankyou-style{
+		
+		margin-top:100px; 
+		padding: 40px 15px;  
+		text-align: center;
+	}
+	/*passsent page*/
+	.pw-instruction{
+		
+		margin-top:100px; 
+		padding: 40px 15px;  
+		text-align: center;
+	}
+	/*body*/
+	.margin-nav{
+	
+		margin-top:100px;
+	}
+	
+	.row{
+		    margin-top:100px;
+		    padding: 0 10px;
+	}
+	
+	.col-md-8 .panel-heading div {
+		margin-top: -18px;
+		font-size: 15px;
+	}
+	.col-md-8 .panel-heading div span{
+		margin-left:5px;
+	}
+	
+	.input-dis{
+		
+		margin-bottom: 20px;
+	}
+	
+	.clickable{
+		    cursor: pointer;   
+	}
+
+	.error{
+	
+		color:red;
+		margin-left:2px;
+	}
+
+	.hidden{
+	
+		display:none;
+	}
+
