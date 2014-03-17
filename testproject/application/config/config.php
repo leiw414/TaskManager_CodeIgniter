@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/testproject/';
+$config['base_url']	= 'https://codeigniterproject-leiw.rhcloud.com/testproject/';
 
 $config['server_root'] = $_SERVER['DOCUMENT_ROOT'];
 
