@@ -48,10 +48,10 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = '127.13.31.130:3306';
-$db['default']['username'] = 'adminjfmTMvs';
-$db['default']['password'] = 'qJwLNExXPuiH';
-$db['default']['database'] = 'codeigniterproject';
+$db['default']['hostname'] = '50.62.209.16:3306';
+$db['default']['username'] = 'leiw414';
+$db['default']['password'] = 'zuoyou414';
+$db['default']['database'] = 'testproject';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
