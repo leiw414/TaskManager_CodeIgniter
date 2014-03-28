@@ -2,11 +2,11 @@
 
 class Membership_model extends CI_model {
 
-	function validate()//Check if the user's credentials validate.
+	function validate($user_id, $password )//Check if the user's credentials validate.
 	{
 		
-		$this->db->where('USER_ID', $this->input->post('email'));
-		$this->db->where('PASSWORD', sha1($this->input->post('password')));
+		$this->db->where('USER_ID', $user_id);
+		$this->db->where('PASSWORD', $password);
 		$this->db->where('STATUS', 'activated');
 		$query = $this->db->get('user');
 		
@@ -25,10 +25,10 @@ class Membership_model extends CI_model {
 		}
 	}
 	
-	function check_activation()
+	function check_activation($user_id)
 	{
 		//Check if the account has been activated.
-		$this->db->where('USER_ID', $this->input->post('email'));
+		$this->db->where('USER_ID', $user_id);
 		$this->db->where('STATUS', 'activated');
 		$query = $this->db->get('user');
 		
@@ -42,10 +42,10 @@ class Membership_model extends CI_model {
 		}
 	}
 	
-	function email_exists()
+	function email_exists($user_id)
 	{
 		//Check if the account exists.
-		$this->db->where('USER_ID',$this->input->post('email'));
+		$this->db->where('USER_ID',$user_id);
 		$query = $this->db->get('user');
 		if ($query->num_rows() > 0){//If exists, return True.
 			
@@ -57,16 +57,9 @@ class Membership_model extends CI_model {
 		}
 	}
 	
-	function create_member()//Create account.
+	function create_member($new_member_insert_data)//Create account.
 	{
-		//Get data from input and save registration date.
-		$new_member_insert_data = array(
-			'USER_ID' => $this->input->post('email'),
-			'PASSWORD' => sha1($this->input->post('password')),
-			'REGISTRATION_DATE' => date("m/d/Y", mktime()),
-			'STATUS'=> sha1($this->input->post('email'))
-		);
-		
+		//Get data from input and save registration date.	
 		$insert = $this->db->insert('user', $new_member_insert_data);
 		return $insert;
 	}

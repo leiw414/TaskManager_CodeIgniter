@@ -18,43 +18,60 @@ class Login extends CI_Controller {
 	
 	function validate_credentials(){		
 		
-		//Check if the account exists...
-		if($this->membership_model->email_exists() ==  False)
-		{
-			//If not, return error message, direct to login page.
-			$data['not_exist'] = 'The account does not exists';
-			$data['login_state'] = False;
-			$data['main_content'] = 'login';
-			$this->load->view('includes/template',$data);
+		$this->load->library('form_validation');
 		
-		}
-		//Check if the account has been activated.
-		else if($this->membership_model->check_activation()==False) 
+		//Field name, error message, validation rules.
+		$this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email');
+		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[6]|max_length[32]|xss_clean');
+	
+		
+		if($this->form_validation->run() == FALSE)
 		{
-			//If not, return error message, direct to login page.
-			$data['activation'] = 'Account has not been activated';
-			$data['login_state'] = False;
-			$data['main_content'] = 'login';
-			$this->load->view('includes/template',$data);
+			$this->index();//Direct to signup page with error message.
 		}
-		//If activated & exists...
+		
 		else{
 		
-			$query = $this->membership_model->validate();
-			if($query) //If the user's credentials validated... redirect to task controller.
+			$user_id = $this->input->post('email');
+			$password = sha1($this->input->post('password'));
+			//Check if the account exists...
+			if($this->membership_model->email_exists($user_id) ==  False)
 			{
-				
-				$this->session->set_userdata('login_state', TRUE);
-				$this->session->set_userdata('id', $this->input->post('email'));				
-				redirect('task');
-			}
-			
-			else //If incorrect username or password, return error message, direct to login page.
-			{
-				$data['incorrect'] = 'incorrect Username or Password';
+				//If not, return error message, direct to login page.
+				$data['not_exist'] = 'The account does not exist!';
 				$data['login_state'] = False;
 				$data['main_content'] = 'login';
 				$this->load->view('includes/template',$data);
+			
+			}
+			//Check if the account has been activated.
+			else if($this->membership_model->check_activation($user_id)==False) 
+			{
+				//If not, return error message, direct to login page.
+				$data['activation'] = 'The account has not been activated';
+				$data['login_state'] = False;
+				$data['main_content'] = 'login';
+				$this->load->view('includes/template',$data);
+			}
+			//If activated & exists...
+			else{
+			
+				$query = $this->membership_model->validate($user_id, $password);
+				if($query) //If the user's credentials validated... redirect to task controller.
+				{
+					
+					$this->session->set_userdata('login_state', TRUE);
+					$this->session->set_userdata('id', $this->input->post('email'));				
+					redirect('task');
+				}
+				
+				else //If incorrect username or password, return error message, direct to login page.
+				{
+					$data['incorrect'] = 'incorrect Username or Password';
+					$data['login_state'] = False;
+					$data['main_content'] = 'login';
+					$this->load->view('includes/template',$data);
+				}
 			}
 		}
 	}
@@ -67,6 +84,7 @@ class Login extends CI_Controller {
 	
 	function create_member()//Create account. 
 	{
+		
 		$this->load->library('form_validation');
 		
 		//Field name, error message, validation rules.
@@ -82,12 +100,22 @@ class Login extends CI_Controller {
 		
 		else
 		{			
+			$user_id = $this->input->post('email');
+			$passwd = sha1($this->input->post('password'));
 			
 			//Check if the email exists. If not...
-			if($this->membership_model->email_exists() == False)
+			if($this->membership_model->email_exists($user_id) == False)
 			{
+				//get new member data from post input
+				$new_member_insert_data = array(
+					'USER_ID' => $this->input->post('email'),
+					'PASSWORD' => sha1($this->input->post('password')),
+					'REGISTRATION_DATE' => date("m/d/Y", mktime()),
+					'STATUS'=> sha1($this->input->post('email'))
+				);
+				
 				//Send an account activation email to user.
-				if($query = $this->membership_model->create_member())
+				if($query = $this->membership_model->create_member($new_member_insert_data))
 				{
 					$config = Array(
 						'protocol' => 'smtp',
@@ -177,6 +205,7 @@ class Login extends CI_Controller {
 		}
 		else//Send reset password and save verification code and random code in the database.
 		{
+			$user_id = $this->input->post('email');
 			$verification_code = sha1($this->input->post('email'));
 			$status = sha1($this->generateRandomString(10));
 			
@@ -185,7 +214,7 @@ class Login extends CI_Controller {
 					'STATUS'  => $status
 			);
 			//Replace password and status with verification and random code.
-			$this->passwd_model->reset_passwd($data);
+			$this->passwd_model->reset_passwd($user_id, $data);
 			
 			//Then send the email.
 			$config = Array(

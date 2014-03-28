@@ -7,7 +7,7 @@
                     </div>     
 
                     <div style="padding-top:30px" class="panel-body" >
-					
+						<?php echo validation_errors('<p class="alert alert-danger">'); ?> </p>
                         <?php if (isset($incorrect)): ?>
 							 <div id="login-alert" class="alert alert-danger col-sm-12">
 							<a class="close" data-dismiss="alert" href="<?php echo base_url();?>index.php?/login">×</a>Incorrect Username or Password!

@@ -66,14 +66,26 @@ class Task extends CI_Controller {
 	function update(){//Update specific task.
 	
 		$task_id = $this->input-> post('task_id');
-
-		$this->task_model->update_record($task_id);
+		
+		$data = array(
+			'TASK_NAME' => $_POST["task"],
+			'ASSIGNEE' => $_POST["assignee"],
+			'STATUS' => $_POST["status"]
+		);
+		
+		$this->task_model->update_record($task_id, $data);
 			
 	}
 	
 	function add(){//Add new task into database.
 
-		$this->task_model->add_record();
+		$data = array(
+			'USER_ID' => $this->session->userdata('id'),
+			'TASK_NAME' => $_POST["task"],
+			'ASSIGNEE' => $_POST["assignee"],
+			'STATUS' => $_POST["status"]
+		);
+		$this->task_model->add_record($data);
 	
 	}
 }

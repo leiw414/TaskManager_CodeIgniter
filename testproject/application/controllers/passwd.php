@@ -6,12 +6,15 @@ class Passwd extends CI_Controller {
 	{
 		if($this->input->post('ajax')) {
 			
+			$old_password = sha1($this->input->post('old_password'));
+			
 			//Check if the old password matches.
-			$query = $this->passwd_model->check_passwd();
+			$query = $this->passwd_model->check_passwd($old_password);
 				
 			if($query) {//If yes, then update，return success message.
 				
-				$this->passwd_model->update();
+				$new_password = sha1($this->input->post('new_password'));
+				$this->passwd_model->update($new_password);
 				$data['success'] = 'Your password has been updated!';
 				$this->load->view('password_updated', $data);		
 			} 
