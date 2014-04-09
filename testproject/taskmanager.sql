@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 14, 2014 at 08:21 AM
+-- Generation Time: Apr 09, 2014 at 07:25 PM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.4.3
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `testproject`
+-- Database: `taskmanager`
 --
 
 -- --------------------------------------------------------
@@ -36,6 +36,19 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
   KEY `last_activity_idx` (`last_activity`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `ci_sessions`
+--
+
+INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
+('10ef7e6df17cc75c09a8119d1bf8b976', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36', 1396304386, 'a:3:{s:9:"user_data";s:0:"";s:11:"login_state";b:1;s:2:"id";s:17:"leiw414@gmail.com";}'),
+('1383e0f7f793dd641c2e56f8c2dafa7b', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36', 1396634860, ''),
+('446185e951dacdc464dd62faec096052', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36', 1396915259, ''),
+('5c3932f72d8dac8026491a15083c95be', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36', 1395961532, 'a:3:{s:9:"user_data";s:0:"";s:11:"login_state";b:1;s:2:"id";s:17:"leiw414@gmail.com";}'),
+('7e8defb312ef60a73e7568c0910205b3', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0', 1395960025, 'a:3:{s:9:"user_data";s:0:"";s:11:"login_state";b:1;s:2:"id";s:17:"leiw414@gmail.com";}'),
+('b77bbc6cf357e98aaf6f7ac74d0f02b8', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0', 1395961799, ''),
+('e6364df741d2fed64b12f940c74af6df', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36', 1396113107, '');
+
 -- --------------------------------------------------------
 
 --
@@ -50,14 +63,14 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `STATUS` varchar(255) NOT NULL,
   PRIMARY KEY (`TASK_ID`),
   KEY `USER_ID` (`USER_ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=94 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=89 ;
 
 --
 -- Dumping data for table `tasks`
 --
 
 INSERT INTO `tasks` (`TASK_ID`, `USER_ID`, `TASK_NAME`, `ASSIGNEE`, `STATUS`) VALUES
-(63, 'leiw414@gmail.com', 'Fax & Printing', 'Sammy', 'in progress'),
+(63, 'leiw414@gmail.com', 'Fax & Printing', 'Sammy Bush', 'in progress'),
 (64, 'leiw414@gmail.com', 'Graphic', 'Graham', 'completed'),
 (65, 'leiw414@gmail.com', 'Text', 'Savannah', 'in progress'),
 (73, 'leiw414@gmail.com', 'Editing', 'Leonard', 'not started'),
@@ -83,7 +96,9 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`USER_ID`, `PASSWORD`, `REGISTRATION_DATE`, `LAST_LOGIN`, `STATUS`) VALUES
-('leiw414@gmail.com', '7c8f9ad03beee8a2fe4275af8bb52c2e4559eca9', '01/24/2014', '03/14/2014', 'activated');
+('chunxiz@live.unc.edu', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', '03/17/2014', '', '084ef582d716bf158d5d2363d4701011f5d5feb0'),
+('fiteveryone@gmail.com', '7c8f9ad03beee8a2fe4275af8bb52c2e4559eca9', '03/27/2014', '03/27/2014', 'activated'),
+('leiw414@gmail.com', '7c8f9ad03beee8a2fe4275af8bb52c2e4559eca9', '01/24/2014', '03/31/2014', 'activated');
 
 --
 -- Constraints for dumped tables
