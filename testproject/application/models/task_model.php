@@ -2,10 +2,9 @@
 
 class Task_model extends CI_Model {
 	
-	function get_records()
+	function get_records($user_id)
 	{
 		//Get all tasks saved in the database by user id.
-		$user_id = $this->session->userdata('id');
 		$this->db->from('tasks');
 		$this->db->where( 'USER_ID', $user_id);
 		$q = $this->db->get();
@@ -13,10 +12,10 @@ class Task_model extends CI_Model {
 		return $q->result();
 	}
 	
-	function get_record($task_id)
+	function get_record($user_id, $task_id)
 	{
 		//Get specific task by task id and user id.
-		$user_id = $this->session->userdata('id');
+
 		$this->db->from('tasks');
 		$this->db->where( 'USER_ID', $user_id);
 		$this->db->where( 'TASK_ID', $task_id);

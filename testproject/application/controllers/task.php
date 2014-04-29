@@ -1,14 +1,14 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Task extends CI_Controller {
-	
+
 	function index(){
 	
        if($this->session->userdata('login_state')) {
 			//If the user has logged in... 
 			$data = array();
 		
-			if($query = $this->task_model->get_records())
+			if($query = $this->task_model->get_records($this->session->userdata('id')))
 			{
 				$data['records'] = $query;
 			}
@@ -44,7 +44,7 @@ class Task extends CI_Controller {
 	
 	function edit($task_id){//When user clicks edit button...
 	
-		if($query = $this->task_model->get_record($task_id)){
+		if($query = $this->task_model->get_record($this->session->userdata('id'), $task_id)){
 				
 				$data['record'] = $query;
 		}
