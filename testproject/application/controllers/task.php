@@ -1,14 +1,24 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Task extends CI_Controller {
-
+	
+	public function __construct(){
+            parent::__construct();
+            // Your own constructor code
+			if(!$this->session->userdata('login_state')) {
+				redirect('login');
+			}
+			
+    }
+	   
 	function index(){
 	
        if($this->session->userdata('login_state')) {
 			//If the user has logged in... 
 			$data = array();
-		
-			if($query = $this->task_model->get_records($this->session->userdata('id')))
+			$user_id = $this->session->userdata('id');
+			
+			if($query = $this->task_model->get_records($user_id))
 			{
 				$data['records'] = $query;
 			}
@@ -32,7 +42,8 @@ class Task extends CI_Controller {
 		
 		if($this->input->post('sbm') == "delete") { 
 			
-			$this->task_model->delete($task_id);	
+			$user_id = $this->session->userdata('id');
+			$this->task_model->delete($user_id, $task_id);	
 			$this->index();
 		} 
 		
@@ -44,7 +55,8 @@ class Task extends CI_Controller {
 	
 	function edit($task_id){//When user clicks edit button...
 	
-		if($query = $this->task_model->get_record($this->session->userdata('id'), $task_id)){
+		$user_id = $this->session->userdata('id');
+		if($query = $this->task_model->get_record($user_id, $task_id)){
 				
 				$data['record'] = $query;
 		}
@@ -72,8 +84,9 @@ class Task extends CI_Controller {
 			'ASSIGNEE' => $_POST["assignee"],
 			'STATUS' => $_POST["status"]
 		);
+		$user_id = $this->session->userdata('id');
 		
-		$this->task_model->update_record($task_id, $data);
+		$this->task_model->update_record($user_id, $task_id, $data);
 			
 	}
 	
@@ -85,7 +98,8 @@ class Task extends CI_Controller {
 			'ASSIGNEE' => $_POST["assignee"],
 			'STATUS' => $_POST["status"]
 		);
-		$this->task_model->add_record($data);
+		$user_id = $this->session->userdata('id');
+		$this->task_model->add_record($user_id, $data);
 	
 	}
 }
